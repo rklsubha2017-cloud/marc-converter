@@ -6,3 +6,4 @@ app.log
 *.xlsx
 *.mrk
 .DS_Store
+app_old.py
