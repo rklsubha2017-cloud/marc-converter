@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Excel → MARC (.mrk) Converter for Koha</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <div class="bg-overlay"></div>
+  <div class="container">
+    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+      <button id="themeToggle" aria-label="Toggle theme">
+        <svg class="icon icon-sm" id="themeIcon" viewBox="0 0 24 24">
+          <path d="M12 3v2m0 14v2m9-9h-2m-14 0H3m16.95-6.95-1.42 1.42M6.34 17.66l-1.42 1.42M17.66 6.34l1.42-1.42M6.34 6.34l-1.42-1.42"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+      <div class="header-title">
+        <svg class="icon icon-primary animate-float" viewBox="0 0 24 24">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14,2 14,8 20,8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+          <polyline points="10,9 9,9 8,9"/>
+        </svg>
+        <h1>Excel → MARC Converter</h1>
+      </div>
+      <p class="header-subtitle">
+        Transform your Excel (.xlsx) files into Koha-ready MARC (.mrk) format with seamless field merging
+      </p>
+    </div>
+
+    <!-- Card -->
+    <div class="card space-y-8">
+      <!-- Upload Form -->
+      <form id="uploadForm" action="{{ url_for('upload_file') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
+        <!-- Error Message -->
+        {% if error %}
+        <div class="status-message error">
+          <svg class="icon-sm" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12" y2="16"/>
+          </svg>
+          {{ error }}
+        </div>
+        {% endif %}
+
+        <!-- Success Message -->
+        <div class="status-message success hidden" id="successMessage">
+          <svg class="icon-sm status-icon" viewBox="0 0 24 24">
+            <polyline points="20,6 9,17 4,12"/>
+          </svg>
+          File converted successfully! Downloading...
+        </div>
+
+        <!-- File Upload Section -->
+        <div class="space-y-4">
+          <h2 class="section-header">
+            <svg class="icon-sm icon-primary" viewBox="0 0 24 24">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7,10 12,15 17,10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Upload Excel File
+          </h2>
+          <div class="file-upload" id="dropZone">
+            <input type="file" name="file" id="fileInput" accept=".xlsx" required>
+            <div class="upload-content">
+              <div class="upload-icon-container">
+                <svg class="icon-lg upload-icon" id="uploadIcon" viewBox="0 0 24 24">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="7,10 12,15 17,10"/>
+                  <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                <svg class="icon-lg upload-icon hidden" id="fileIcon" viewBox="0 0 24 24">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14,2 14,8 20,8"/>
+                  <line x1="16" y1="13" x2="8" y2="13"/>
+                  <line x1="16" y1="17" x2="8" y2="17"/>
+                  <polyline points="10,9 9,9 8,9"/>
+                </svg>
+                <svg class="icon-sm upload-check hidden" id="checkIcon" viewBox="0 0 24 24">
+                  <polyline points="20,6 9,17 4,12"/>
+                </svg>
+              </div>
+              <div>
+                <p class="upload-text" id="uploadText">Click or drag Excel file here</p>
+                <p class="upload-subtext" id="uploadSubtext">Supports .xlsx files up to 10MB</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Language Selection -->
+        <div class="space-y-4">
+          <h2 class="section-header">
+            <svg class="icon-sm icon-primary" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="m9,12 2,2 4,-4"/>
+            </svg>
+            MARC Language Code
+          </h2>
+          <select name="lang" id="lang" required>
+            <option value="und" selected>Undefined</option>
+            <option value="eng">English (eng)</option>
+            <option value="hin">Hindi (hin)</option>
+            <option value="ben">Bengali (ben)</option>
+            <option value="tam">Tamil (tam)</option>
+            <option value="tel">Telugu (tel)</option>
+          </select>
+        </div>
+
+        <!-- Supported Fields -->
+        <div class="space-y-4">
+          <h3 class="section-header section-header-lg">Supported Fields</h3>
+          <div class="fields-grid">
+            <div class="field-item"><span class="field-badge">020$a</span><span class="field-desc">ISBN</span></div>
+            <div class="field-item"><span class="field-badge">020$c</span><span class="field-desc">Terms of availability</span></div>
+            <div class="field-item"><span class="field-badge">082$a</span><span class="field-desc">Classification number</span></div>
+            <div class="field-item"><span class="field-badge">082$b</span><span class="field-desc">Item number</span></div>
+            <div class="field-item"><span class="field-badge">100$a</span><span class="field-desc">Main Author</span></div>
+            <div class="field-item"><span class="field-badge">245$a</span><span class="field-desc">Title</span></div>
+            <div class="field-item"><span class="field-badge">245$b</span><span class="field-desc">Remainder of title</span></div>
+            <div class="field-item"><span class="field-badge">250$a</span><span class="field-desc">Edition statement</span></div>
+            <div class="field-item"><span class="field-badge">260$a</span><span class="field-desc">Place of publication</span></div>
+            <div class="field-item"><span class="field-badge">260$b</span><span class="field-desc">Name of publisher</span></div>
+            <div class="field-item"><span class="field-badge">260$c</span><span class="field-desc">Date of publication</span></div>
+            <div class="field-item"><span class="field-badge">300$a</span><span class="field-desc">Extent</span></div>
+            <div class="field-item"><span class="field-badge">362$a</span><span class="field-desc">Dates of publication</span></div>
+            <div class="field-item"><span class="field-badge">650$a</span><span class="field-desc">Subject (multiple with |)</span></div>
+            <div class="field-item"><span class="field-badge">700$a</span><span class="field-desc">Personal name (multiple with |)</span></div>
+            <div class="field-item"><span class="field-badge">952$p</span><span class="field-desc">Barcode</span></div>
+            <div class="field-item"><span class="field-badge">952$d</span><span class="field-desc">Date acquired</span></div>
+            <div class="field-item"><span class="field-badge">952$o</span><span class="field-desc">Call number</span></div>
+            <div class="field-item"><span class="field-badge">952$e</span><span class="field-desc">Source of acquisition</span></div>
+            <div class="field-item"><span class="field-badge">952$g</span><span class="field-desc">Price</span></div>
+            <div class="field-item"><span class="field-badge">952$A</span><span class="field-desc">Invoice number</span></div>
+            <div class="field-item"><span class="field-badge">952$B</span><span class="field-desc">Invoice date</span></div>
+            <div class="field-item"><span class="field-badge">952$c</span><span class="field-desc">Collection</span></div>
+            <div class="field-item"><span class="field-badge">952$C</span><span class="field-desc">Additional collection info</span></div>
+            <div class="field-item"><span class="field-badge">952$x</span><span class="field-desc">Format</span></div>
+            <div class="field-item"><span class="field-badge">952$y</span><span class="field-desc">Item type</span></div>
+            <div class="field-item"><span class="field-badge">952$a</span><span class="field-desc">Home library</span></div>
+            <div class="field-item"><span class="field-badge">952$b</span><span class="field-desc">Current library</span></div>
+          </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="info-box">
+          <h4 class="info-title">Important Notes:</h4>
+          <ul class="info-list">
+            <li>Use pipe (|) separator for multiple values in fields like 650$a and 700$a</li>
+            <li>Headers must match MARC field format exactly (e.g., 245$a, 952$p, 952$c, 952$C)</li>
+            <li>Holdings are merged based on: 020$a, 020$c, 082$a, 082$b, 100$a, 245$a, 245$b, 250$a, 260$a, 260$b, 260$c, 300$a, 362$a, 650$a, 700$a</li>
+            <li>Ensure 952$d and 952$B are in YYYY-MM-DD format</li>
+          </ul>
+        </div>
+
+        <!-- Convert Button -->
+        <div class="btn-container">
+          <button type="submit" class="btn" id="convertBtn" disabled>
+            <span id="btnText">Select File First</span>
+            <span class="spinner hidden" id="btnSpinner"></span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+</body>
+</html>
