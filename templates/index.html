@@ -116,11 +116,19 @@
           </select>
         </div>
 
+	<!-- Convert Button -->
+        <div class="btn-container">
+          <button type="submit" class="btn" id="convertBtn" disabled>
+            <span id="btnText">Select File First</span>
+            <span class="spinner hidden" id="btnSpinner"></span>
+          </button>
+        </div>
+
         <!-- Supported Fields -->
         <div class="space-y-4">
           <h3 class="section-header section-header-lg">Supported Fields</h3>
           <div class="fields-grid">
-            <div class="field-item"><span class="field-badge">020$a</span><span class="field-desc">ISBN</span></div>
+            <div class="field-item"><span class="field-badge">020$a</span><span class="field-desc">ISBN (multiple with |)</span></div>
             <div class="field-item"><span class="field-badge">020$c</span><span class="field-desc">Terms of availability</span></div>
             <div class="field-item"><span class="field-badge">082$a</span><span class="field-desc">Classification number</span></div>
             <div class="field-item"><span class="field-badge">082$b</span><span class="field-desc">Item number</span></div>
@@ -155,20 +163,13 @@
         <div class="info-box">
           <h4 class="info-title">Important Notes:</h4>
           <ul class="info-list">
-            <li>Use pipe (|) separator for multiple values in fields like 650$a and 700$a</li>
+            <li>Use pipe (|) separator for multiple values in fields like 020$a, 650$a and 700$a</li>
             <li>Headers must match MARC field format exactly (e.g., 245$a, 952$p, 952$c, 952$C)</li>
             <li>Holdings are merged based on: 020$a, 020$c, 082$a, 082$b, 100$a, 245$a, 245$b, 250$a, 260$a, 260$b, 260$c, 300$a, 362$a, 650$a, 700$a</li>
             <li>Ensure 952$d and 952$B are in YYYY-MM-DD format</li>
           </ul>
         </div>
 
-        <!-- Convert Button -->
-        <div class="btn-container">
-          <button type="submit" class="btn" id="convertBtn" disabled>
-            <span id="btnText">Select File First</span>
-            <span class="spinner hidden" id="btnSpinner"></span>
-          </button>
-        </div>
       </form>
     </div>
   </div>
