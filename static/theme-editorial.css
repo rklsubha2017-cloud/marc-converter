@@ -1,0 +1,275 @@
+/* * -----------------------------------------------------------
+     * THEME ENGINE: MODERN EDITORIAL
+     * -----------------------------------------------------------
+     */
+    :root {
+      /* Light Mode (The "Paper" Look) */
+      --bg-color: #f9f8f4; /* Warm Cream */
+      --card-bg: #ffffff;
+      --text-head: #1e293b;
+      --text-body: #475569;
+      --accent-gold: #cca43b; /* Metallic Gold */
+      --accent-navy: #1e3a8a; /* Deep Library Blue */
+      --border-color: #e2e8f0;
+      --input-bg: #f8fafc;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+      --font-serif: 'Merriweather', serif;
+      --font-sans: 'Inter', sans-serif;
+    }
+
+    [data-theme="dark"] {
+      /* Dark Mode (The "Archive" Look) */
+      --bg-color: #0f172a; /* Deep Slate */
+      --card-bg: #1e293b;
+      --text-head: #f1f5f9;
+      --text-body: #94a3b8;
+      --accent-gold: #fbbf24; /* Brighter Gold for dark mode */
+      --accent-navy: #3b82f6; /* Lighter Blue for visibility */
+      --border-color: #334155;
+      --input-bg: #0f172a;
+      --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+    }
+
+    * { box-sizing: border-box; transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease; }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-color);
+      color: var(--text-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 3rem 1rem;
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    /* Container */
+    .container {
+      width: 100%;
+      max-width: 750px;
+      position: relative;
+    }
+
+    /* Card Design */
+    .editorial-card {
+      background: var(--card-bg);
+      border-top: 4px solid var(--accent-gold); /* The Gold Stripe */
+      box-shadow: var(--shadow);
+      padding: 3.5rem;
+      position: relative;
+    }
+
+    /* --- THEME TOGGLE --- */
+    .theme-toggle {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+    }
+
+    #themeToggle {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-body);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    #themeToggle:hover {
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+    }
+
+    /* --- HEADER --- */
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+
+    .header::after {
+      /* Decorative flourish */
+      content: "§";
+      display: block;
+      font-size: 1.5rem;
+      color: var(--accent-gold);
+      margin-top: 1rem;
+      font-family: var(--font-serif);
+    }
+
+    h1 {
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-style: italic;
+      color: var(--text-head);
+      font-size: 2.25rem;
+      margin: 0;
+      letter-spacing: -0.5px;
+    }
+
+    .header-subtitle {
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent-navy);
+      margin-top: 0.5rem;
+      font-weight: 600;
+    }
+
+    /* --- INPUTS & SECTIONS --- */
+    .section-label {
+      font-family: var(--font-serif);
+      color: var(--text-head);
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Custom File Upload */
+    .file-upload-classic {
+      border: 1px solid var(--border-color);
+      background: var(--input-bg);
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: border 0.3s;
+      position: relative;
+    }
+
+    .file-upload-classic:hover {
+      border-color: var(--accent-navy);
+    }
+
+    .file-upload-classic input {
+      position: absolute;
+      width: 100%; height: 100%; top: 0; left: 0; opacity: 0; cursor: pointer;
+    }
+
+    .upload-icon {
+      color: var(--accent-gold);
+      margin-bottom: 1rem;
+    }
+
+    /* Select Box */
+    select {
+      width: 100%;
+      padding: 0.8rem 0;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid var(--border-color);
+      color: var(--text-head);
+      font-family: var(--font-serif);
+      font-size: 1.1rem;
+      border-radius: 0;
+      cursor: pointer;
+    }
+
+    select:focus {
+      outline: none;
+      border-color: var(--accent-gold);
+    }
+
+    /* Button - The "Seal" Look */
+    .btn-gold {
+      width: 100%;
+      background: var(--text-head);
+      color: var(--bg-color);
+      border: none;
+      padding: 1.25rem;
+      font-family: var(--font-sans);
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      margin-top: 2rem;
+      transition: transform 0.2s, background-color 0.2s;
+    }
+
+    .btn-gold:hover:not(:disabled) {
+      background: var(--accent-navy);
+    }
+
+    .btn-gold:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* --- FIELDS GRID (Clean Typography) --- */
+    .fields-section {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .fields-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 1rem;
+    }
+
+    .field-item {
+      font-size: 0.85rem;
+      border-left: 2px solid var(--border-color);
+      padding-left: 0.75rem;
+    }
+
+    .field-code {
+      font-family: monospace;
+      font-weight: 700;
+      color: var(--accent-navy);
+      display: block;
+    }
+
+    .field-desc {
+      font-family: var(--font-serif);
+      font-style: italic;
+      color: var(--text-body);
+    }
+
+    /* --- FOOTER (Signature Style) --- */
+    .signature-footer {
+      margin-top: 4rem;
+      text-align: center;
+      border-top: 1px solid var(--border-color);
+      padding-top: 2rem;
+      width: 60%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .dev-by {
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent-gold);
+      margin-bottom: 0.5rem;
+    }
+
+    .dev-name {
+      font-family: 'Great Vibes', cursive; /* Fallback to Serif if not loaded, but we use Serif here */
+      font-family: var(--font-serif);
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--text-head);
+    }
+
+    /* Utilities & Messages */
+    .hidden { display: none !important; }
+    .space-y-6 > * + * { margin-top: 2rem; }
+    .icon-sm { width: 20px; height: 20px; }
+    
+    .msg-box { padding: 1rem; margin-bottom: 1.5rem; font-size: 0.9rem; border-left: 3px solid; }
+    .msg-error { background: #fef2f2; border-color: #ef4444; color: #b91c1c; }
+    .msg-success { background: #f0fdf4; border-color: #10b981; color: #047857; }
