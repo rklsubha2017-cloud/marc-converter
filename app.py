@@ -72,7 +72,7 @@ def line_mrk_pairs(tag: str, pairs: list, ind1: str = '\\', ind2: str = '\\') ->
         return ''
         
     if tag == '952':
-        subfield_order = ['p', 'd', 'o', 'e', 'g', 'A', 'B', 'c', 'C', 't', '2', 'x', 'y', 'a', 'b']
+        subfield_order = ['p', 'd', 'o', 'e', 'g', 'A', 'B', 'c', 'C', 't', '2', '8', 'w', 'x', 'y', 'a', 'b']
         sorted_parts = []
         for code in subfield_order:
             for part in parts:
