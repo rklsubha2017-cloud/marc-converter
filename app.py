@@ -407,9 +407,19 @@ def upload_file():
                     if l:
                         record.append(l)
 
-            for val in g['biblio']['650']:
-                l = line_mrk('650', {'a': val})
+            # PASTE THIS INSTEAD
+            for item in g['biblio']['650']:
+                # Create the dictionary for the subfields
+                subs = {'a': item['a']}
+    
+                # Only add 'x' if it actually exists
+                if item['x']:
+                    subs['x'] = item['x']
+        
+                l = line_mrk('650', subs)
                 if l: record.append(l)
+
+            
             for val in g['biblio']['700']:
                 l = line_mrk('700', {'a': val})
                 if l: record.append(l)
